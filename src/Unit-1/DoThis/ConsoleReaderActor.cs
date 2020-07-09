@@ -11,12 +11,8 @@ namespace WinTail
     {
         public const string StartCommand = "start";
         public const string ExitCommand = "exit";
-        private readonly IActorRef _validationActor;
 
-        public ConsoleReaderActor(IActorRef validationActor)
-        {
-            _validationActor = validationActor;
-        }
+        public ConsoleReaderActor() { }
 
         protected override void OnReceive(object message)
         {
@@ -32,6 +28,7 @@ namespace WinTail
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Please provide a URI of a log file on disk.\n");
+            Console.ResetColor();
         }
 
         private void GetAndValidateInput()
@@ -45,8 +42,8 @@ namespace WinTail
             }
             else
             {
-                // Hand off to FileValidationActor
-                _validationActor.Tell(read);
+                // Hand off to some FileValidationActor
+                Context.ActorSelection("akka://MyActorSystem/user/validationActor").Tell(read);
             }
         }
 

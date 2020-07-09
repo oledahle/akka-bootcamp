@@ -62,7 +62,6 @@ namespace WinTail
                FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
            _fileStreamReader = new StreamReader(_fileStream, Encoding.UTF8);
            
-           Console.WriteLine("TailActor doing initial read\n");
            // Do initial read
            var text = _fileStreamReader.ReadToEnd();
            Self.Tell(new InitialRead(_filePath, text));
