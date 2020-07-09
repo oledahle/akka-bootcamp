@@ -20,23 +20,25 @@ namespace WinTail
         
         public class StopTail
         {
-            public StopTail(string filePath)
+            public StopTail()
             {
-                FilePath = filePath;
             }
-            
-            public string FilePath { get; private set; }
         }
         
         #endregion
 
+        private IActorRef _currentTailActor;
         protected override void OnReceive(object message)
         {
             if (message is StartTail)
             {
                 var msg = message as StartTail;
-                Context.ActorOf(Props.Create(
+                _currentTailActor = Context.ActorOf(Props.Create(
                     () => new TailActor(msg.ReporterActor, msg.FilePath)));
+            }
+            if (message is StopTail)
+            {
+                if (_currentTailActor != null) Context.Stop(_currentTailActor);
             }
         }
 

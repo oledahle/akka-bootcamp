@@ -38,6 +38,7 @@ namespace WinTail
             {
                 // shut down the system (acquire handle to system via
                 // this actors context)
+                Context.ActorSelection("akka://MyActorSystem/user/tailCoordinatorActor").Tell(new TailCoordinatorActor.StopTail());
                 Context.System.Terminate();
             }
             else
