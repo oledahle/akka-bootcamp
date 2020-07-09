@@ -21,6 +21,10 @@ namespace WinTail
                 Console.ForegroundColor = ConsoleColor.Green ;
                 Console.WriteLine((message as Messages.InputSuccess).Reason);  
             }
+            else if (message is string)
+            {
+                Console.Write(message as string);
+            }
             Console.ResetColor();
         }
     }
